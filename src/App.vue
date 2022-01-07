@@ -20,23 +20,44 @@ export default {
     return {
       ds: {
         'id': '1',
-        'name': 'Lao Lao',
-        'title': 'general manager',
+        'nombre': 'Lao Lao',
+        'puesto': 'general manager',
+        'img': 'http://localhost/adagioRH.Web/fotos/empleados/ADG0002.jpg',
         'children': [
-          { 'id': '2', 'name': 'Bo Miao', 'title': 'department manager' },
-          { 'id': '3', 'name': 'Su Miao', 'title': 'department manager',
+          { 'id': '2', 'nombre': 'Bo Miao', 'puesto': 'department manager','img': 'http://localhost/adagioRH.Web/fotos/empleados/ADG0002.jpg' },
+          { 'id': '3', 'nombre': 'Su Miao', 'puesto': 'department manager','img': 'http://localhost/adagioRH.Web/fotos/empleados/ADG0002.jpg',
             'children': [
-              { 'id': '4', 'name': 'Tie Hua', 'title': 'senior engineer' },
-              { 'id': '5', 'name': 'Hei Hei', 'title': 'senior engineer',
+              { 'id': '4', 'nombre': 'Tie Hua', 'puesto': 'senior engineer','img': 'http://localhost/adagioRH.Web/fotos/empleados/ADG0002.jpg' },
+              { 'id': '5', 'nombre': 'Hei Hei', 'puesto': 'senior engineer','img': 'http://localhost/adagioRH.Web/fotos/empleados/ADG0002.jpg',
                 'children': [
-                  { 'id': '6', 'name': 'Pang Pang', 'title': 'engineer' },
-                  { 'id': '7', 'name': 'Xiang Xiang', 'title': 'UE engineer' }
+                  { 'id': '6', 'nombre': 'Pang Pang', 'puesto': 'engineer','img': 'http://localhost/adagioRH.Web/fotos/empleados/ADG0002.jpg' },
+                  { 'id': '7', 'nombre': 'Xiang Xiang', 'puesto': 'UE engineer','img': 'http://localhost/adagioRH.Web/fotos/empleados/ADG0002.jpg' }
                 ]
                }
              ]
            },
-          { 'id': '8', 'name': 'Hong Miao', 'title': 'department manager' },
-          { 'id': '9', 'name': 'Chun Miao', 'title': 'department manager' }
+          { 'id': '8', 'nombre': 'Hong Miao', 'puesto': 'department manager','img': 'http://localhost/adagioRH.Web/fotos/empleados/ADG0002.jpg',
+                'children': [
+                  { 'id': '9', 'nombre': 'Pang Pang', 'puesto': 'engineer','img': 'http://localhost/adagioRH.Web/fotos/empleados/ADG0002.jpg' },
+                  { 'id': '10', 'nombre': 'Xiang Xiang', 'puesto': 'UE engineer','img': 'http://localhost/adagioRH.Web/fotos/empleados/ADG0002.jpg' ,
+                'children': [
+                  { 'id': '11', 'nombre': 'Pang Pang', 'puesto': 'engineer','img': 'http://localhost/adagioRH.Web/fotos/empleados/ADG0002.jpg' },
+                  { 'id': '12', 'nombre': 'Xiang Xiang', 'puesto': 'UE engineer','img': 'http://localhost/adagioRH.Web/fotos/empleados/ADG0002.jpg',
+                'children': [
+                  { 'id': '13', 'nombre': 'Pang Pang', 'puesto': 'engineer','img': 'http://localhost/adagioRH.Web/fotos/empleados/ADG0002.jpg' },
+                  { 'id': '14', 'nombre': 'Xiang Xiang', 'puesto': 'UE engineer','img': 'http://localhost/adagioRH.Web/fotos/empleados/ADG0002.jpg',
+                'children': [
+                  { 'id': '15', 'nombre': 'Pang Pang', 'puesto': 'engineer','img': 'http://localhost/adagioRH.Web/fotos/empleados/ADG0002.jpg' },
+                  { 'id': '16', 'nombre': 'Xiang Xiang', 'puesto': 'UE engineer','img': 'http://localhost/adagioRH.Web/fotos/empleados/ADG0002.jpg',
+                'children': [
+                  { 'id': '17', 'nombre': 'Pang Pang', 'puesto': 'engineer' ,'img': 'http://localhost/adagioRH.Web/fotos/empleados/ADG0002.jpg'},
+                  { 'id': '18', 'nombre': 'Xiang Xiang', 'puesto': 'UE engineer' ,'img': 'http://localhost/adagioRH.Web/fotos/empleados/ADG0002.jpg'}
+                ] }
+                ] }
+                ] }
+                ]}
+                ] },
+          { 'id': '19', 'nombre': 'Chun Miao', 'puesto': 'department manager','img': 'http://localhost/adagioRH.Web/fotos/empleados/ADG0002.jpg' }
         ]
       }
     }

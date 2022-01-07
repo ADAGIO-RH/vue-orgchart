@@ -49,6 +49,81 @@ export default {
       default: 7
     }
   },
+  mounted() {
+    $(".orgchart .node .popup").hide();//This hides all the pop-ups when page loads
+
+    document.querySelectorAll('.orgchart .node').forEach(node => {
+      node.onmouseenter = node.onmouseleave = handler;
+    })
+
+    function handler(event) {
+      let type = event.type;
+      switch (type) {
+        case 'mouseenter': 
+          const callOver = over.bind(this, event);
+          callOver();
+          break;
+        case 'mousemove': 
+          const callMove = move.bind(this, event);
+          callMove();
+          break;
+        case 'mouseleave': 
+          const callOut = out.bind(this, event);
+          callOut();
+          break;
+        
+        default:
+          break;
+      }
+
+      return false;
+    }
+
+    function over(event) { 
+      const selector = "#popup-"+this.id; //creates a value of "#popup1", "#popup2", etc for future use
+
+      const popup = this.querySelector('.popup')
+      const adjustX = popup.offsetWidth
+      const adjustY = popup.offsetHeight// -30
+
+      const rect = this.getBoundingClientRect()
+      const offsetTop = rect.top + window.scrollY
+      const offsetLeft = rect.left + window.scrollX
+
+      let my = event.pageY-offsetTop-adjustY; //my = mouse y position with some adjustment relateive to top of box
+      let mx = event.pageX-offsetLeft-adjustX; //mx = mouse x position with some adjustment relateive to left of box
+
+      popup.style.left  = (event.pageX <= 250 ? mx * 0.5   : mx)+'px';
+      popup.style.top   = (event.pageY <= 80  ? my * -0.5 : my)+'px';
+      $(selector).show(); //This reveals the popup inside the hovered box
+    }
+
+    function move(event) { 
+      const popup = this.querySelector('.popup')
+      const adjustX = popup.offsetWidth
+      const adjustY = popup.offsetHeight -30
+
+      const rect = this.getBoundingClientRect()
+      const offsetTop = rect.top + window.scrollY
+      const offsetLeft = rect.left + window.scrollX
+
+      var my = event.pageY-offsetTop-adjustY;//my = mouse y position with some adjustment relateive to top of box
+      var mx = event.pageX-offsetLeft-adjustX; //mx = mouse x position with some adjustment relateive to left of box
+
+      popup.style.left = mx+'px';
+      popup.style.top = (event.pageY <= 80 ? my * -0.5 : my)+'px';
+    }
+
+    function out() { 
+      const popup = this.querySelector('.popup')
+      popup.style.left = 0;
+      popup.style.top = 0;
+
+      const boxHovered = this.id;//Gets the id of the box such as "box1", "box2"
+      const selector = "#popup-"+boxHovered;//creates a value of "#popup1", "#popup2", etc for future use
+      $(selector).hide();//This hides the popup inside the hovered box
+    }
+  },
   data () {
     return {
       cursorVal: 'default',
@@ -156,7 +231,13 @@ export default {
     zoomHandler (e) {
       let newScale  = 1 + (e.deltaY > 0 ? -0.2 : 0.2)
       this.setChartScale(newScale)
-    }
+    },
+    uuidv4() {
+      return ([1e7]+-1e3+-4e3+-8e3+-1e11).replace(/[018]/g, c =>
+        (c ^ crypto.getRandomValues(new Uint8Array(1))[0] & 15 >> c / 4).toString(16)
+    );
+}
+
   }
 };
 </script>
@@ -165,7 +246,7 @@ export default {
 .orgchart-container {
   position: relative;
   display: inline-block;
-  height: 420px;
+  height: 800px;
   width: calc(100% - 24px);
   border: 2px dashed #aaa;
   border-radius: 5px;
@@ -175,6 +256,8 @@ export default {
 .orgchart {
   box-sizing: border-box;
   display: inline-block;
+   height: 800px;
+  width: 100%;
   min-height: 202px;
   min-width: 202px;
   -webkit-touch-callout: none;
@@ -183,13 +266,13 @@ export default {
   -moz-user-select: none;
   -ms-user-select: none;
   user-select: none;
-  background-image: linear-gradient(
+  /* background-image: linear-gradient(
       90deg,
       rgba(200, 0, 0, 0.15) 10%,
       rgba(0, 0, 0, 0) 10%
     ),
     linear-gradient(rgba(200, 0, 0, 0.15) 10%, rgba(0, 0, 0, 0) 10%);
-  background-size: 10px 10px;
+  background-size: 10px 10px; */
   border: 1px dashed rgba(0, 0, 0, 0);
   padding: 20px;
 }
@@ -327,7 +410,11 @@ export default {
   padding: 3px;
   border: 2px dashed transparent;
   text-align: center;
-  width: 130px;
+  cursor: pointer;
+  /* width: 130px; */
+}
+.orgchart .node .tool-tips {
+  display: none;
 }
 
 .orgchart.l2r .node,
@@ -352,6 +439,54 @@ export default {
   z-index: 20;
 }
 
+.orgchart .node .popup {
+  position: absolute;/*VERY IMPORTANT*/
+  width: 350px;
+  min-height: 150px;
+  /* background-color: #0C9; */
+  background-color: #74EBD5;
+  background-image: linear-gradient(270deg, #74EBD5 0%, #9FACE6 100%);
+
+  border: solid 1px teal;
+  border-radius: 5px;
+  left: 0px;/*This value gets replaced in javascript so ANY number is OK*/
+  top: 0px;/*This value gets replaced in javascript so ANY number is OK*/
+  animation: fadeInAnimation ease 0.5s;
+  animation-iteration-count: 1;
+  animation-fill-mode: forwards;
+}
+
+@keyframes fadeInAnimation {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+.orgchart .node .popup .lbl-name{
+  font-size: 1rem;
+  font-weight: bold;
+}
+
+.orgchart .node .popup .lbl-field{
+  font-size: 0.8rem;
+  font-weight: 700;
+}
+
+.orgchart .node .popup .lbl-value{
+  font-size: 0.7rem;
+}
+
+
+/* 
+.orgchart .node:hover > div.tool-tips {
+  position: absoluted;
+  display: flex;
+  justify-content: space-between; 
+} */
+
 .orgchart .node.focused {
   background-color: rgba(238, 217, 54, 0.5);
 }
@@ -375,12 +510,13 @@ export default {
   text-align: center;
   font-size: 12px;
   font-weight: bold;
-  height: 20px;
+  height: 40px;
+  min-width: 200px;
   line-height: 20px;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
-  background-color: rgba(217, 83, 79, 0.8);
+  background-color: rgb(59 58 143 / 80%);
   color: #fff;
   border-radius: 4px 4px 0 0;
 }
@@ -402,6 +538,10 @@ export default {
   width: 120px;
 }
 
+.orgchart .node .profile-picture {
+  border-radius: 50%;
+}
+
 .orgchart .node .title .symbol {
   float: left;
   margin-top: 4px;
@@ -409,9 +549,13 @@ export default {
 }
 
 .orgchart .node .content {
+  display: flex;
+  justify-content: center;
+  align-items: center;
   box-sizing: border-box;
   width: 100%;
-  height: 20px;
+  height: 60px;
+  min-width: 200px;
   font-size: 11px;
   line-height: 18px;
   border: 1px solid rgba(217, 83, 79, 0.8);

@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <script src="https://cdn.jsdelivr.net/npm/vue@2"></script>
+<script src="./orgchart.umd.js"></script>
+
+<style>
+/* .orgchart-container {
+  height: 100%;
+}
+.orgchart {
+  background: rgb(67, 115, 202);
+}
+.node-box {
+  border: 1px solid red;
+  position: relative;
+  &.parent::before {
+    content: "";
+    display: none;
+  }
+}
+.node-title {
+  background: #ccc;
+}
+.node-content {
+  background-color: #fff;
+  color: #000;
+}
+.node-box::before {
+  content: "▼";
+  position: absolute;
+  top: -16px;
+  left: 50%;
+  color: red;
+  margin-left: -8px;
+} */
+</style>
+<link rel="stylesheet" href="./orgchart.css">
+  <title>Document</title>
+</head>
+<body>
+
+<div id="app">
+  <title>orgchart demo</title>
+
+  {{ message }}
+
+  <organization-chart :datasource="ds" @node-click="log">
+    <template slot-scope="{ nodeData }">
+      <div :class="['node-box',  nodeData.id == '1' ? 'parent' : '']">
+        <div class="title">{{nodeData.name}}</div>
+        <div class="content">
+          <img width="30%" src="https://randomuser.me/api/portraits/men/57.jpg" style="border-radius: 50%;">
+          <div>{{nodeData.title}} {{nodeData.id}}</div>
+        </div>
+      </div>
+    </template>
+  </organization-chart>
+</div>
+
+
+</body>
+</html>
+
+<script>
+  console.log(orgchart)
+  
+  var app = new Vue({
+    el: '#app',
+    components: {
+      'organization-chart': orgchart.default
+    },
+    data: {
+      message: 'Hello Vue!',
+      ds: {
+          id: "1",
+          name: "Lao Lao",
+          title: "general manager",
+          children: [
+            { id: "2", name: "Bo Miao", title: "department manager" },
+            {
+              id: "3",
+              name: "Su Miao",
+              title: "department manager",
+              children: [
+                { id: "4", name: "Tie Hua", title: "senior engineer" },
+                {
+                  id: "5",
+                  name: "Hei Hei",
+                  title: "senior engineer",
+                  children: [
+                    {
+                      id: "6",
+                      name: "Pang Pang",
+                      title: "engineer"
+                    },
+                    {
+                      id: "7",
+                      name: "Xiang Xiang",
+                      title: "UE engineer",
+                      children: [
+                        { id: "6", name: "Pang Pang", title: "engineer",  children: [
+                        { id: "6", name: "Pang Pang", title: "engineer"  },
+                        { id: "7", name: "Xiang Xiang", title: "UE engineer" }
+                      ] },
+                        { id: "7", name: "Xiang Xiang", title: "UE engineer" }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            { id: "8", name: "Hong Miao", title: "department manager" },
+            {
+              id: "9",
+              name: "Chun Miao",
+              title: "department manager",
+              children: [
+                { id: "6", name: "Pang Pang", title: "engineer" },
+                { id: "7", name: "Xiang Xiang", title: "UE engineer" }
+              ]
+            }
+          ]
+        }
+    },
+  methods: {
+    log(e) {
+      console.log(e);
+    }
+  }
+  })
+  
+  </script>
